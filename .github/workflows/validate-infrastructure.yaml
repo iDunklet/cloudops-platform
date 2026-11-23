@@ -1,0 +1,20 @@
+name: Validate Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install cfn-lint
+        run: python -m pip install cfn-lint==1.61.0
+      - name: Validate CloudFormation template
+        run: cfn-lint infrastructure/template.yaml

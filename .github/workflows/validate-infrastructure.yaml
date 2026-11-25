@@ -3,6 +3,10 @@ name: Validate Infrastructure
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 on:
   push:
     branches:
@@ -13,6 +17,7 @@ on:
 
 jobs:
   validate:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
